@@ -46,3 +46,10 @@ Once the project is cloned and .NET 5 SDK is installed continue on:
     "webhooks": []
 }
 ```
+
+## Preview  
+**New Version Released:**  
+![New Version Released](.github/images/version_new.png)
+
+**Version Reverted to Previous Version:**  
+![Version Reverted](.github/images/version_revert.png)

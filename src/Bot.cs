@@ -31,7 +31,7 @@
             _config = config;
             _versionMon = new VersionMonitor(Strings.VersionEndPoint);
             _versionMon.VersionChanged += OnVersionChanged;
-            _versionMon.CompareIntervalM = 1;
+            _versionMon.CompareIntervalM = Strings.DefaultCompareIntervalM;
         }
 
         #endregion
@@ -72,6 +72,7 @@
         {
             _logger.Info($"Latest version changed from {e.Current} -> {e.Latest}");
 
+            // Generate and build Discord embed message compatible with webhook API
             var eb = GenerateEmbed(e);
             var embed = new DiscordWebhookMessage
             {
@@ -79,8 +80,10 @@
                 AvatarUrl = _config.Bot?.IconUrl ?? Strings.BotIconUrl,
                 Embeds = new List<DiscordEmbedMessage> { eb }
             };
+            // Convert embed message object to JSON string
             var json = embed.Build();
 
+            // Look all configured webhooks and send embed to each one
             foreach (var webhook in _config.Webhooks)
             {
                 _logger.Debug($"Sending embed message to webhook {webhook}");

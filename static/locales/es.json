@@ -1,0 +1,8 @@
+{
+    "embed_title": "Monitor de versión de Pokémon Go",
+    "embed_field_current": "Actual",
+    "embed_field_latest": "Más reciente",
+    "embed_footer_api_new": "NUEVA API LANZADA",
+    "embed_footer_api_latest": "ÚLTIMA VERSIÓN DE LA API",
+    "version_reverted": "¡Versión anterior revertida!"
+}

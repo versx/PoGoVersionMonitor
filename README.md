@@ -36,7 +36,7 @@ Once the project is cloned and .NET 5 SDK is installed continue on:
 ## Configuration  
 ```json
 {
-    // Language to use for embed message.
+    // Language to use for embed message (check `static/locales` for available locale options)
     "locale": "en",
     // Bot display settings for embed post
     "bot": {

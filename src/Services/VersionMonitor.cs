@@ -62,6 +62,8 @@
             _timer.Elapsed += (sender, e) => CheckVersionChanged();
             _timer.Interval = 60 * 1000 * CompareIntervalM;
             _timer.Start();
+
+            _logger.Debug($"Version check timer started, interval set to {CompareIntervalM} minutes...");
         }
 
         /// <summary>
@@ -74,6 +76,8 @@
                 return;
 
             _timer.Stop();
+
+            _logger.Debug($"Version check timer stopped...");
         }
 
         #endregion
@@ -130,8 +134,8 @@
             catch (Exception ex)
             {
                 _logger.Error(ex);
-                return new Version(version);
             }
+            return new Version(version);
         }
 
         #endregion

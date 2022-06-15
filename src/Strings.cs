@@ -26,5 +26,7 @@
         public static readonly string LocaleFolder = StaticFolder + Path.DirectorySeparatorChar + "locales";
 
         public const string VersionEndPoint = "https://pgorelease.nianticlabs.com/plfe/version";
+
+        public const ushort DefaultCompareIntervalM = 1;
     }
 }

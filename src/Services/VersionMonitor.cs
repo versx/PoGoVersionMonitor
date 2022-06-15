@@ -60,7 +60,7 @@
                 return;
 
             _timer.Elapsed += (sender, e) => CheckVersionChanged();
-            _timer.Interval = 15 * 1000 * CompareIntervalM;
+            _timer.Interval = 60 * 1000 * CompareIntervalM;
             _timer.Start();
         }
 

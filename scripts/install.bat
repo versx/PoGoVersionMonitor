@@ -33,5 +33,8 @@ dotnet build
 echo "Copying example files..."
 xcopy /s /e %binDir%\config.example.json %binDir%\config.json
 
+echo "Copying static folder..."
+xcopy /s /e %prjDir%\static\* %binDir%\static\
+
 echo "Changing directory to build folder..."
 cd %binDir%

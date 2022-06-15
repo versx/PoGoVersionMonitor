@@ -30,5 +30,8 @@ echo "Building PogoVersionMonitor..."
 echo "Copying example config..."
 cp config.example.json bin/config.json
 
+echo "Copying static folder..."
+cp -R static bin/static/
+
 echo "Changing directory to build folder..."
 cd bin

@@ -11,6 +11,9 @@
     {
         #region Properties
 
+        [JsonPropertyName("locale")]
+        public string Locale { get; set; } = "en";
+
         [JsonPropertyName("bot")]
         public BotConfig Bot { get; set; } = new();
 

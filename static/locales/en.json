@@ -1,0 +1,8 @@
+{
+    "embed_title": "Pokemon Go Version Monitor",
+    "embed_field_current": "Current",
+    "embed_field_latest": "Latest",
+    "embed_footer_api_new": "NEW API RELEASED",
+    "embed_footer_api_latest": "LATEST API VERSION",
+    "version_reverted": "Previous Version Reverted!"
+}

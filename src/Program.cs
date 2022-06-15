@@ -6,6 +6,7 @@
 
     using PogoVersionMonitor.Configuration;
     using PogoVersionMonitor.Diagnostics;
+    using PogoVersionMonitor.Localization;
     using PogoVersionMonitor.Utilities;
 
     // TODO: Localize embed text
@@ -21,6 +22,8 @@
                 logger.Error($"Failed to load config, exiting...");
                 return;
             }
+
+            Translator.Instance.SetLocale(config.Locale);
 
             var bot = new Bot(config);
             bot.Start();

@@ -5,6 +5,7 @@
 
     using PogoVersionMonitor.Configuration;
     using PogoVersionMonitor.Diagnostics;
+    using PogoVersionMonitor.Localization;
     using PogoVersionMonitor.Net.Webhooks.Models;
     using PogoVersionMonitor.Services;
     using PogoVersionMonitor.Utilities;
@@ -92,18 +93,18 @@
             var isLatest = Utils.IsVersionMatch(e.Current, e.Latest);
             var embed = new DiscordEmbedMessage
             {
-                Title = "Pokemon Go Version Monitor:",
+                Title = Translator.Instance.Translate("embed_title"),
                 Fields = new List<DiscordEmbedField>
                 {
-                    new DiscordEmbedField("Current:", e.Current.ToString(), true),
-                    new DiscordEmbedField("Latest:", e.Latest.ToString(), true),
+                    new DiscordEmbedField(Translator.Instance.Translate("embed_field_current"), e.Current.ToString(), true),
+                    new DiscordEmbedField(Translator.Instance.Translate("embed_field_latest"), e.Latest.ToString(), true),
                 },
                 Description = e.IsRevert
-                    ? "Previous Version Reverted!"
+                    ? Translator.Instance.Translate("version_reverted")
                     : string.Empty,
                 Footer = new DiscordEmbedFooter(isLatest
-                    ? "LATEST API VERSION"
-                    : "NEW API RELEASED",
+                    ? Translator.Instance.Translate("embed_footer_api_latest")
+                    : Translator.Instance.Translate("embed_footer_api_new"),
                     string.Empty
                 ),
                 Color = isLatest ? /*GREEN*/ 0x00ff00 : /*RED*/ 0xff0000,

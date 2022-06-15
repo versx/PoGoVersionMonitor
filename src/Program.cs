@@ -9,8 +9,6 @@
     using PogoVersionMonitor.Localization;
     using PogoVersionMonitor.Utilities;
 
-    // TODO: Localize embed text
-
     internal class Program
     {
         static void Main(string[] args)

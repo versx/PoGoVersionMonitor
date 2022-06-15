@@ -20,6 +20,8 @@
 
         public Version Latest => _latestVersion ??= GetLatest();
 
+        public Version Current => _currentVersion;
+
         public ushort CompareIntervalM { get; set; } = 5;
 
         public bool IsRunning => _timer?.Enabled ?? false;

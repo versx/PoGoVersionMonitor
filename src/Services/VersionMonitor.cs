@@ -2,12 +2,14 @@
 {
     using System;
 
+    using PogoVersionMonitor.Diagnostics;
     using PogoVersionMonitor.Utilities;
 
     public class VersionMonitor
     {
         #region Variables
 
+        private readonly IEventLogger _logger = new EventLogger(Program.OnLogEvent);
         private readonly System.Timers.Timer _timer = new();
         private Version _currentVersion;
         private Version _latestVersion;
@@ -16,22 +18,13 @@
 
         #region Properties
 
-        public Version Latest
-        {
-            get
-            {
-                if (_latestVersion == null)
-                {
-                    _latestVersion = GetLatest();
-                }
-
-                return _latestVersion;
-            }
-        }
+        public Version Latest => _latestVersion ??= GetLatest();
 
         public ushort CompareIntervalM { get; set; } = 5;
 
         public bool IsRunning => _timer?.Enabled ?? false;
+
+        public string RemoteEndPoint { get; set; }
 
         #endregion
 
@@ -48,14 +41,18 @@
 
         #region Constructor
 
-        public VersionMonitor()
+        public VersionMonitor(string remoteEndPoint)
         {
+            RemoteEndPoint = remoteEndPoint;
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Start monitoring for version changes from remote source.
+        /// </summary>
         public void Start()
         {
             // Skip starting timer if already started
@@ -67,6 +64,9 @@
             _timer.Start();
         }
 
+        /// <summary>
+        /// Stop monitoring for version changes from remote source.
+        /// </summary>
         public void Stop()
         {
             // Skip stopping timer if already stopped
@@ -97,12 +97,14 @@
             if (_currentVersion < _latestVersion)
             {
                 // New version
+                _logger.Debug($"New remote version changed from {_currentVersion} to {_latestVersion}");
                 OnVersionChanged(_currentVersion, _latestVersion, false);
                 _currentVersion = _latestVersion;
             }
             else if (_currentVersion > _latestVersion)
             {
                 // Reverted
+                _logger.Debug($"Remote version reverted from {_currentVersion} to {_latestVersion}");
                 OnVersionChanged(_currentVersion, _latestVersion, true);
                 _currentVersion = _latestVersion;
             }
@@ -112,29 +114,24 @@
             }
         }
 
-        #endregion
-
-        #region Static Methods
-
-        private static Version GetLatest()
+        private Version GetLatest()
         {
             var version = "0.0.0";
             try
             {
-                var data = Utils.GetRequest(Strings.VersionEndPoint);
+                var data = Utils.GetRequest(RemoteEndPoint);
                 if (!string.IsNullOrEmpty(data))
                 {
                     version = data;
                     version = Utils.SanitizeString(version);
                 }
+                return new Version(version[1..]);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Error(ex);
                 return new Version(version);
             }
-
-            return new Version(version.Substring(1, version.Length - 1));
         }
 
         #endregion

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using PogoVersionMonitor.Configuration;
+    using PogoVersionMonitor.Diagnostics;
     using PogoVersionMonitor.Net.Webhooks.Models;
     using PogoVersionMonitor.Services;
     using PogoVersionMonitor.Utilities;
@@ -14,6 +15,7 @@
 
         private readonly Config _config;
         private readonly VersionMonitor _versionMon;
+        private readonly IEventLogger _logger = new EventLogger(Program.OnLogEvent);
 
         #endregion
 
@@ -26,7 +28,7 @@
         public Bot(Config config)
         {
             _config = config;
-            _versionMon = new VersionMonitor();
+            _versionMon = new VersionMonitor(Strings.VersionEndPoint);
             _versionMon.VersionChanged += OnVersionChanged;
             _versionMon.CompareIntervalM = 1;
         }
@@ -45,7 +47,7 @@
                 return;
 
             _versionMon.Start();
-            Console.WriteLine($"{Strings.BotName} v{Strings.BotVersion} started....");
+            _logger.Info($"{Strings.BotName} v{Strings.BotVersion} started....");
         }
 
         /// <summary>
@@ -58,7 +60,7 @@
                 return;
 
             _versionMon.Stop();
-            Console.WriteLine($"{Strings.BotName} v{Strings.BotVersion} stopped....");
+            _logger.Info($"{Strings.BotName} v{Strings.BotVersion} stopped....");
         }
 
         #endregion
@@ -67,7 +69,7 @@
 
         private void OnVersionChanged(object sender, VersionChangedEventArgs e)
         {
-            Console.WriteLine($"Latest version changed from {e.Current} -> {e.Latest}");
+            _logger.Info($"Latest version changed from {e.Current} -> {e.Latest}");
 
             var eb = GenerateEmbed(e);
             var embed = new DiscordWebhookMessage
@@ -80,7 +82,7 @@
 
             foreach (var webhook in _config.Webhooks)
             {
-                Console.WriteLine($"Sending embed message to webhook {webhook}");
+                _logger.Debug($"Sending embed message to webhook {webhook}");
                 NetUtils.SendWebhook(webhook, json);
             }
         }

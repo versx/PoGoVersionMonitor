@@ -43,7 +43,7 @@
             try
             {
                 // Create logs directory if needed
-                Utils.CreateLogsDirectory(Strings.LogsFolder);
+                Utils.CreateDirectory(Strings.LogsFolder);
 
                 // Write log to file
                 var logFileName = DateTime.Now.ToString("yyyy-MM-dd") + ".log";

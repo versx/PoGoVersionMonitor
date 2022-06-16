@@ -17,12 +17,31 @@
             //DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static T FromJson<T>(this string json) =>
             JsonSerializer.Deserialize<T>(json, _jsonOptions);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string ToJson<T>(this T obj) =>
             JsonSerializer.Serialize(obj, _jsonOptions);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        /// <exception cref="FileNotFoundException"></exception>
         public static T LoadFromFile<T>(this string filePath)
         {
             if (!File.Exists(filePath))

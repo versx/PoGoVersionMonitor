@@ -13,7 +13,11 @@
         [JsonPropertyName("inline")]
         public bool Inline { get; set; }
 
-        public DiscordEmbedField(string name, string value, bool inline)
+        public DiscordEmbedField()
+        {
+        }
+
+        public DiscordEmbedField(string name, string value, bool inline = false)
         {
             Name = name;
             Value = value;

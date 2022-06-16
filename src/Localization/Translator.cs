@@ -2,15 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     using PogoVersionMonitor.Diagnostics;
 
     public class Translator : Language<string, string, Dictionary<string, string>>
     {
-        private static readonly string _binLocalesFolder = Directory.GetCurrentDirectory() + $"/{Strings.BasePath}/{Strings.LocaleFolder}";
+        #region Variables
 
+        private static readonly string _binLocalesFolder = $"{Strings.BasePath}/{Strings.LocaleFolder}";
         private readonly IEventLogger _logger = new EventLogger(Program.OnLogEvent);
+
+        #endregion
 
         #region Singleton
 
@@ -25,35 +27,35 @@
 
         #endregion
 
-        public override string Translate(string value)
-        {
-            try
-            {
-                return base.Translate(value) ?? value;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Failed to find locale translation for key '{value}'");
-                _logger.Error(ex);
-            }
-            return value;
-        }
+        #region Public Methods
 
-        public string Translate(string value, params object[] args)
+        /// <summary>
+        /// Translates the provided value by looking up the locale key in the
+        /// mapped locale dictionary.
+        /// </summary>
+        /// <param name="key">The locale key to lookup.</param>
+        /// <param name="args">Optional array of arguments to use that replaces
+        /// placeholders in the looked up translation.</param>
+        /// <returns>Returns the translation string associated with the locale
+        /// key. Optionally, placeholder text will be replaced with provided
+        /// arguments.</returns>
+        public string Translate(string key, params object[] args)
         {
             try
             {
                 var text = args?.Length > 0
-                    ? string.Format(base.Translate(value), args)
-                    : base.Translate(value);
-                return text ?? value;
+                    ? string.Format(base.Translate(key), args)
+                    : base.Translate(key);
+                return text ?? key;
             }
             catch (Exception ex)
             {
-                _logger.Error($"Failed to find locale translation for key '{value}' and arguments: '{string.Join(",", args)}'");
+                _logger.Error($"Failed to find locale translation for key '{key}' and arguments: '{string.Join(",", args)}'");
                 _logger.Error(ex);
             }
-            return value;
+            return key;
         }
+
+        #endregion
     }
 }

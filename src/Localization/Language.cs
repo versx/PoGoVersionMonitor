@@ -11,7 +11,7 @@
     public class Language<TFrom, TTo, TDictionary> : IEnumerable<KeyValuePair<TFrom, TTo>>
         where TDictionary : IDictionary<TFrom, TTo>, new()
     {
-        private const string DefaultLanguage = "en";
+        public const string DefaultLanguage = "en";
 
         // The translation table
         private IDictionary<TFrom, TTo> _map;

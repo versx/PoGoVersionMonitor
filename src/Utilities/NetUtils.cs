@@ -2,28 +2,33 @@
 {
     using System;
     using System.Net;
+    using System.Threading;
 
     public static class NetUtils
     {
-        public static void SendWebhook(string webhookUrl, string json)
+        /// <summary>
+        /// Send a HTTP POST request to the provided url address
+        /// </summary>
+        /// <param name="url">Web address to send JSON payload to.</param>
+        /// <param name="json">JSON payload to send to endpoint.</param>
+        public static void SendWebhook(string url, string json)
         {
             using var wc = new WebClient();
             wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            //wc.Headers.Add(HttpRequestHeader.Authorization, "Bot base64_auth_token");
-            //wc.Headers.Add(HttpRequestHeader.UserAgent, "");
+
             try
             {
-                var resp = wc.UploadString(webhookUrl, json);
+                var resp = wc.UploadString(url, json);
                 //Console.WriteLine($"Response: {resp}");
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
             }
             catch (WebException ex)
             {
                 var resp = (HttpWebResponse)ex.Response;
-                switch ((int)resp.StatusCode)
+                switch (resp?.StatusCode)
                 {
                     //https://discordapp.com/developers/docs/topics/rate-limits
-                    case 429:
+                    case HttpStatusCode.TooManyRequests: // 429
                         Console.WriteLine("RATE LIMITED");
                         var retryAfter = resp.Headers["Retry-After"];
                         //var limit = resp.Headers["X-RateLimit-Limit"];
@@ -32,8 +37,8 @@
                         if (!int.TryParse(retryAfter, out var retry))
                             return;
 
-                        System.Threading.Thread.Sleep(retry);
-                        SendWebhook(webhookUrl, json);
+                        Thread.Sleep(retry);
+                        SendWebhook(url, json);
                         break;
                 }
             }

@@ -11,12 +11,23 @@
     {
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the translation locale to use with Discord
+        /// embed messages.
+        /// </summary>
         [JsonPropertyName("locale")]
         public string Locale { get; set; } = "en";
 
+        /// <summary>
+        /// Gets or sets the bot configuration.
+        /// </summary>
         [JsonPropertyName("bot")]
         public BotConfig Bot { get; set; } = new();
 
+        /// <summary>
+        /// Gets or sets the webhooks that will receive the version
+        /// change messages.
+        /// </summary>
         [JsonPropertyName("webhooks")]
         public List<string> Webhooks { get; set; } = new();
 

@@ -21,7 +21,7 @@
                 return;
             }
 
-            Translator.Instance.SetLocale(config.Locale);
+            Translator.Instance.SetLocale(config.Locale ?? Strings.DefaultLocale);
 
             var bot = new Bot(config);
             bot.Start();

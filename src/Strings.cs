@@ -28,5 +28,7 @@
         public const string VersionEndPoint = "https://pgorelease.nianticlabs.com/plfe/version";
 
         public const ushort DefaultCompareIntervalM = 1;
+
+        public const string DefaultLocale = "en";
     }
 }

@@ -23,6 +23,7 @@ Alternatively, if you already have .NET 5 SDK installed, run the following comma
 1. `git clone https://github.com/versx/PoGoVersionMonitor && cd PoGoVersionMonitor`  
 2. `dotnet build`  
 3. `cp config.example.json bin/config.json`  
+4. `cp -R static bin/static/`  
 
 ---
 Once the project is cloned and .NET 5 SDK is installed continue on:  
@@ -35,6 +36,8 @@ Once the project is cloned and .NET 5 SDK is installed continue on:
 ## Configuration  
 ```json
 {
+    // Language to use for embed message (check `static/locales` for available locale options)
+    "locale": "en",
     // Bot display settings for embed post
     "bot": {
         // Bot name for Discord embed message

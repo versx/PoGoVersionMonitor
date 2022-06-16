@@ -6,9 +6,8 @@
 
     using PogoVersionMonitor.Configuration;
     using PogoVersionMonitor.Diagnostics;
+    using PogoVersionMonitor.Localization;
     using PogoVersionMonitor.Utilities;
-
-    // TODO: Localize embed text
 
     internal class Program
     {
@@ -21,6 +20,8 @@
                 logger.Error($"Failed to load config, exiting...");
                 return;
             }
+
+            Translator.Instance.SetLocale(config.Locale ?? Strings.DefaultLocale);
 
             var bot = new Bot(config);
             bot.Start();
@@ -42,7 +43,7 @@
             try
             {
                 // Create logs directory if needed
-                Utils.CreateLogsDirectory(Strings.LogsFolder);
+                Utils.CreateDirectory(Strings.LogsFolder);
 
                 // Write log to file
                 var logFileName = DateTime.Now.ToString("yyyy-MM-dd") + ".log";

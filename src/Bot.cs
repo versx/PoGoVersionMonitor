@@ -70,8 +70,6 @@
 
         private void OnVersionChanged(object sender, VersionChangedEventArgs e)
         {
-            _logger.Info($"Latest version changed from {e.Current} -> {e.Latest}");
-
             // Generate and build Discord embed message compatible with webhook API
             var eb = GenerateEmbed(e);
             var embed = new DiscordWebhookMessage

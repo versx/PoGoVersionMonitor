@@ -103,7 +103,7 @@
             if (_currentVersion < _latestVersion)
             {
                 // New version
-                _logger.Debug($"New remote version changed from {_currentVersion} to {_latestVersion}");
+                _logger.Debug($"Remote version changed from {_currentVersion} to {_latestVersion}");
                 OnVersionChanged(_currentVersion, _latestVersion, false);
                 _currentVersion = _latestVersion;
             }

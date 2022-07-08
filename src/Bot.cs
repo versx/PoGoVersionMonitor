@@ -71,21 +71,21 @@
         private void OnVersionChanged(object sender, VersionChangedEventArgs e)
         {
             // Generate and build Discord embed message compatible with webhook API
-            var eb = GenerateEmbed(e);
-            var embed = new DiscordWebhookMessage
+            var embed = GenerateEmbed(e);
+            var payload = new DiscordWebhookMessage
             {
                 Username = _config.Bot?.Name ?? Strings.BotName,
                 AvatarUrl = _config.Bot?.IconUrl ?? Strings.BotIconUrl,
-                Embeds = new List<DiscordEmbedMessage> { eb }
+                Embeds = new List<DiscordEmbedMessage> { embed },
             };
             // Convert embed message object to JSON string
-            var json = embed.Build();
+            var payloadJson = payload.Build();
 
             // Look all configured webhooks and send embed to each one
             foreach (var webhook in _config.Webhooks)
             {
                 _logger.Debug($"Sending embed message to webhook {webhook}");
-                NetUtils.SendWebhook(webhook, json);
+                NetUtils.SendWebhook(webhook, payloadJson);
             }
         }
 
